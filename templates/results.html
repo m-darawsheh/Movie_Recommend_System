@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>نتائج البحث</title>
+
+</head>
+<body>
+    <h1>نتائج البحث لـ: {{ name }}</h1>
+
+    {% if movies %}
+        <ul>
+        {% for movie in movies %}
+            <li>{{ movie }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>لا توجد أفلام لهذا الاسم.</p>
+    {% endif %}
+
+    <a href="/get_movie">🔙 رجوع</a>
+</body>
+</html>
