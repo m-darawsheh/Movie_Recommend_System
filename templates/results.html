@@ -1,22 +1,234 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>نتائج البحث</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <style>
+        * {
+                {% else %}
+            <div class="no-results">
+                <div class="no-results-icon">🎬</div>
+                <p class="no-results-text">Sorry, no movies found for this name</p>
+                <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 20px;">Make sure the name is spelled correctly and try again</p>
+            </div>
+        {% endif %}
 
+        <div class="controls">
+            <a href="/get_movie" class="btn btn-secondary">🔍 New Search</a>
+            <a href="/" class="btn">🏠 Home</a>
+        </div>0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #330000 50%, #000000 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            box-shadow: 0 8px 32px rgba(255, 0, 0, 0.2);
+            padding: 40px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #ff0000;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .search-term {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        .movies-container {
+            margin: 40px 0;
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            list-style: none;
+        }
+
+        .movie-card {
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .movie-card:hover {
+            border-color: #ff0000;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 0, 0, 0.3);
+        }
+
+        .movie-card::before {
+            content: '🎬';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            opacity: 0.7;
+        }
+
+        .movie-title {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .no-results-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .no-results-text {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #ff0000, #cc0000);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: linear-gradient(45deg, #cc0000, #ff0000);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 0, 0, 0.3);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 0, 0, 0.2);
+            border-color: #ff0000;
+        }
+
+        .results-count {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: rgba(255, 0, 0, 0.1);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 0, 0, 0.3);
+        }
+
+        .count-number {
+            color: #ff0000;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .movies-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>نتائج البحث لـ: {{ name }}</h1>
+    <div class="container">
+        <div class="header">
+            <h1>🎭 Search Results</h1>
+            <p class="search-term">Search for: <strong>{{ name }}</strong></p>
+        </div>
 
-    {% if movies %}
-        <ul>
-        {% for movie in movies %}
-            <li>{{ movie }}</li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>لا توجد أفلام لهذا الاسم.</p>
-    {% endif %}
+        {% if movies %}
+            <div class="results-count">
+                Found <span class="count-number">{{ movies|length }}</span> movies
+            </div>
+            
+            <div class="movies-container">
+                <ul class="movies-grid">
+                {% for movie in movies %}
+                    <li class="movie-card">
+                        <div class="movie-title">{{ movie }}</div>
+                    </li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% else %}
+            <div class="no-results">
+                <div class="no-results-icon">🎬</div>
+                <p class="no-results-text">عذراً، لم يتم العثور على أفلام لهذا الاسم</p>
+                <p style="color: rgba(255, 255, 255, 0.6); margin-bottom: 20px;">تأكد من كتابة الاسم بشكل صحيح وحاول مرة أخرى</p>
+            </div>
+        {% endif %}
 
-    <a href="/get_movie">🔙 رجوع</a>
+        <div class="controls">
+            <a href="/get_movie" class="btn btn-secondary">� بحث جديد</a>
+            <a href="/" class="btn">🏠 الصفحة الرئيسية</a>
+        </div>
+    </div>
 </body>
 </html>
