@@ -28,6 +28,7 @@ def get_movies_by_person(name):
     result_movies = []
 
     for _, row in df.iterrows():
+        print("the type of row is",type(row))
         for actor in row['cast']:
             if actor.get('name', '').lower() == name:
                 result_movies.append(row['title'])
